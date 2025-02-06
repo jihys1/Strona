@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #18414c;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow: auto; /* Allow scrolling */
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            height: 80px;
+            line-height: 80px;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            position: relative;
+            transition: transform 0.3s ease-in-out; /* Smooth zoom effect */
+            transform-origin: center center; /* Zoom around the center */
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            height: 600px;
+            position: relative;
+            margin: 0;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+            border: 10px solid white;
+            border-radius: 10px;
+        }
+
+        .clickable-area {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .clickable-area:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        /* Example clickable areas */
+        .area1 {
+            top: 36%;
+            left: 31%;
+            width: 10%;
+            height: 13%;
+        }
+
+        .area2 {
+            top: 70%;
+            left: 29%;
+            width: 9%;
+            height: 12%;
+        }
+
+        .area3 {
+            top: 82%;
+            left: 28%;
+            width: 15%;
+            height: 12%;
+        }
+
+        /* Style for the countdown timer */
+        .countdown-container {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 24px;
+            color: #ffffff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content-wrapper" id="contentWrapper">
+        <h1>Mapa ośrodków</h1>
+
+        <div class="image-container">
+            <img id="dailyImage" src="map1.png" alt="Main Map">
+            <a class="clickable-area area1" href="page2.html"></a>
+            <a class="clickable-area area2" href="page3.html"></a>
+            <a class="clickable-area area3" href="page4.html"></a>
+        </div>
+
+        <!-- Countdown text -->
+        <div id="countdown" class="countdown-container">Aktualizacja mapy: </div>
+    </div>
+
+    <script>
+    // Function to get the current date and time in CET (Central European Time)
+    function getCETTime() {
+        const date = new Date();
+        const offset = 1; // CET is UTC+1
+        date.setHours(date.getUTCHours() + offset);
+        return date;
+    }
+
+    // Function to calculate the countdown to midnight CET
+    function updateCountdown() {
+        const now = getCETTime();
+        const nextMidnight = new Date(now);
+        nextMidnight.setHours(24, 0, 0, 0);
+
+        const timeDiff = nextMidnight - now;
+        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+        const countdownText = `${hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+
+        const countdownElement = document.getElementById('countdown');
+        countdownElement.innerText = `Aktualizacja mapy: ${countdownText}`;
+    }
+
+    setInterval(updateCountdown, 1000);
+
+    function getCETDayOfMonth() {
+        const date = getCETTime();
+        return date.getDate();
+    }
+
+    const currentDayOfMonthCET = getCETDayOfMonth();
+    const imageElement = document.getElementById('dailyImage');
+    const imagePath = `map${currentDayOfMonthCET}.png`;
+
+    console.log(`Image path: ${imagePath}`);
+
+    imageElement.src = imagePath;
+    imageElement.onerror = () => {
+        imageElement.src = 'fallback-image.png';
+    };
+
+    // Add zoom functionality
+    let zoomLevel = 0; // 0 = no zoom, 1 = zoom level 1, 2 = zoom level 2
+    const contentWrapper = document.getElementById('contentWrapper');
+
+    document.body.addEventListener('click', () => {
+        if (zoomLevel === 0) {
+            contentWrapper.style.transform = 'scale(2)';
+            zoomToCenter();
+            zoomLevel = 1;
+        } else if (zoomLevel === 1) {
+            contentWrapper.style.transform = 'scale(2.5)';
+            zoomToCenter();
+            zoomLevel = 2;
+        } else {
+            contentWrapper.style.transform = 'scale(1)';
+            resetScroll();
+            zoomLevel = 0;
+        }
+    });
+
+    function zoomToCenter() {
+        const wrapperRect = contentWrapper.getBoundingClientRect();
+        const scrollX = (wrapperRect.width * (zoomLevel + 1) - window.innerWidth) / 2;
+        const scrollY = (wrapperRect.height * (zoomLevel + 1) - window.innerHeight) / 2;
+
+        window.scrollTo(scrollX, scrollY);
+    }
+
+    function resetScroll() {
+        window.scrollTo(0, 0);
+    }
+    </script>
+
+</body>
+</html>
