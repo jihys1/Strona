@@ -11,8 +11,11 @@
             background-color: #18414c;
             margin: 0;
             padding: 0;
-            min-height: 100vh;
-            overflow: auto; /* Allow scrolling */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
         }
 
         h1 {
@@ -24,24 +27,13 @@
             line-height: 80px;
         }
 
-        .content-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            min-height: 100vh;
-            position: relative;
-            transition: transform 0.3s ease-in-out; /* Smooth zoom effect */
-            transform-origin: center center; /* Zoom around the center */
-        }
-
         .image-container {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
             width: 100%;
             max-width: 800px;
-            height: 600px;
+            height: 600px; /* Fixed height for consistent image position */
             position: relative;
             margin: 0;
         }
@@ -49,23 +41,23 @@
         .image-container img {
             max-width: 100%;
             max-height: 100%;
-            object-fit: cover;
-            border: 10px solid white;
-            border-radius: 10px;
+            object-fit: cover; /* Ensure images fit consistently */
+            border: 10px solid white; /* White border around the image */
+            border-radius: 10px; /* Optional: rounded corners for the frame */
         }
 
         .clickable-area {
             position: absolute;
-            background-color: rgba(0, 0, 0, 0);
+            background-color: rgba(0, 0, 0, 0); /* Initially invisible */
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease; /* Smooth hover effect */
         }
 
         .clickable-area:hover {
-            background-color: rgba(0, 0, 0, 0.2);
+            background-color: rgba(0, 0, 0, 0.2); /* Highlight on hover */
         }
 
-        /* Example clickable areas */
+        /* Existing clickable areas */
         .area1 {
             top: 36%;
             left: 31%;
@@ -79,12 +71,28 @@
             width: 9%;
             height: 12%;
         }
-
         .area3 {
             top: 82%;
             left: 28%;
             width: 15%;
             height: 12%;
+        }
+
+        /* New clickable areas (to be positioned dynamically) */
+        .movable-area1 {
+            position: absolute;
+            width: 3%;
+            height: 3%;
+            background-color: rgba(3000, 300, 300, 300); /* Initially invisible */
+            cursor: pointer;
+        }
+
+        .movable-area2 {
+            position: absolute;
+            width: 3%;
+            height: 3%;
+            background-color: rgba(300, 300, 300, 300); /* Initially invisible */
+            cursor: pointer;
         }
 
         /* Style for the countdown timer */
@@ -100,24 +108,27 @@
 </head>
 <body>
 
-    <div class="content-wrapper" id="contentWrapper">
-        <h1>Mapa ośrodków</h1>
+    <h1>Mapa ośrodków</h1>
 
-        <div class="image-container">
-            <img id="dailyImage" src="map1.png" alt="Main Map">
-            <a class="clickable-area area1" href="page2.html"></a>
-            <a class="clickable-area area2" href="page3.html"></a>
-            <a class="clickable-area area3" href="page4.html"></a>
-        </div>
+    <div class="image-container">
+        <img id="dailyImage" src="map1.png" alt="Main Map">
+        <a class="clickable-area area1" href="page2.html"></a>
+        <a class="clickable-area area2" href="page3.html"></a>
+        <a class="clickable-area area3" href="page4.html"></a>
 
-        <!-- Countdown text -->
-        <div id="countdown" class="countdown-container">Aktualizacja mapy: </div>
+        <!-- New clickable areas -->
+        <a class="clickable-area movable-area1" href="page5.html"></a>
+        <a class="clickable-area movable-area2" href="page6.html"></a>
     </div>
+
+    <!-- Countdown text -->
+    <div id="countdown" class="countdown-container">Aktualizacja mapy: </div>
 
     <script>
     // Function to get the current date and time in CET (Central European Time)
     function getCETTime() {
         const date = new Date();
+        // Adjust to CET (UTC+1) by using the UTC time and adding 1 hour
         const offset = 1; // CET is UTC+1
         date.setHours(date.getUTCHours() + offset);
         return date;
@@ -127,69 +138,76 @@
     function updateCountdown() {
         const now = getCETTime();
         const nextMidnight = new Date(now);
-        nextMidnight.setHours(24, 0, 0, 0);
+        nextMidnight.setHours(24, 0, 0, 0); // Set the time to midnight (00:00:00) CET
 
-        const timeDiff = nextMidnight - now;
-        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
-        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+        const timeDiff = nextMidnight - now; // Difference in milliseconds
+        const hours = Math.floor(timeDiff / (1000 * 60 * 60)); // Hours left
+        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60)); // Minutes left
+        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000); // Seconds left
 
+        // Format the countdown in HH:MM:SS format
         const countdownText = `${hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
 
+        // Display the countdown
         const countdownElement = document.getElementById('countdown');
         countdownElement.innerText = `Aktualizacja mapy: ${countdownText}`;
     }
 
+    // Update the countdown every second
     setInterval(updateCountdown, 1000);
 
+    // Function to get the current day of the month in CET and set the image
     function getCETDayOfMonth() {
         const date = getCETTime();
-        return date.getDate();
+        return date.getDate(); // Get the day of the month (1-31)
     }
 
+    // Get the current day of the month in CET
     const currentDayOfMonthCET = getCETDayOfMonth();
+
+    // Calculate the image name based on the day of the month
     const imageElement = document.getElementById('dailyImage');
-    const imagePath = `map${currentDayOfMonthCET}.png`;
+    imageElement.src = `map${currentDayOfMonthCET}.png`; // Set the image as map1, map2, ..., map31
 
-    console.log(`Image path: ${imagePath}`);
+// Define the positions for movable-area1
+const newArea1Positions = {
+    1: { top: '20%', left: '30%' },
+    2: { top: '25%', left: '40%' },
+    23: { top: '50%', left: '50%' },
+    // Add positions for other days here...
+    31: { top: '85%', left: '80%' },
+};
 
-    imageElement.src = imagePath;
-    imageElement.onerror = () => {
-        imageElement.src = 'fallback-image.png';
-    };
+// Define the positions for movable-area2
+const newArea2Positions = {
+    1: { top: '10%', left: '20%' },
+    2: { top: '30%', left: '50%' },
+    23: { top: '0%', left: '0%' },
+    // Add positions for other days here...
+    31: { top: '90%', left: '70%' },
+};
 
-    // Add zoom functionality
-    let zoomLevel = 0; // 0 = no zoom, 1 = zoom level 1, 2 = zoom level 2
-    const contentWrapper = document.getElementById('contentWrapper');
+// Function to update the positions of the clickable areas
+function updateClickableAreasPosition() {
+    const newArea1 = document.querySelector('.movable-area1');
+    const newArea2 = document.querySelector('.movable-area2');
 
-    document.body.addEventListener('click', () => {
-        if (zoomLevel === 0) {
-            contentWrapper.style.transform = 'scale(2)';
-            zoomToCenter();
-            zoomLevel = 1;
-        } else if (zoomLevel === 1) {
-            contentWrapper.style.transform = 'scale(2.5)';
-            zoomToCenter();
-            zoomLevel = 2;
-        } else {
-            contentWrapper.style.transform = 'scale(1)';
-            resetScroll();
-            zoomLevel = 0;
-        }
-    });
+    // Get positions for the current day
+    const position1 = newArea1Positions[currentDayOfMonthCET] || { top: '50%', left: '50%' };
+    const position2 = newArea2Positions[currentDayOfMonthCET] || { top: '55%', left: '55%' };
 
-    function zoomToCenter() {
-        const wrapperRect = contentWrapper.getBoundingClientRect();
-        const scrollX = (wrapperRect.width * (zoomLevel + 1) - window.innerWidth) / 2;
-        const scrollY = (wrapperRect.height * (zoomLevel + 1) - window.innerHeight) / 2;
+    // Apply positions to the new clickable areas
+    newArea1.style.top = position1.top;
+    newArea1.style.left = position1.left;
 
-        window.scrollTo(scrollX, scrollY);
-    }
+    newArea2.style.top = position2.top;
+    newArea2.style.left = position2.left;
+}
 
-    function resetScroll() {
-        window.scrollTo(0, 0);
-    }
-    </script>
+
+    // Update the positions when the page loads
+    updateClickableAreasPosition();
+</script>
 
 </body>
 </html>
