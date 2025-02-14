@@ -171,26 +171,153 @@
 
 // Define the positions for movable-area1
 const newArea1Positions = {
-    1: { top: '20%', left: '30%' },
-    2: { top: '25%', left: '40%' },
-    23: { top: '50%', left: '50%' },
-    // Add positions for other days here...
-    31: { top: '85%', left: '80%' },
+    1: { top: '37%', left: '25%' },
+    2: { top: '35%', left: '24%' },
+    3: { top: '26%', left: '36%' },
+    4: { top: '81%', left: '27%' },
+    5: { top: '40.2%', left: '25.8%' },
+    6: { top: '22%', left: '64%' },
+    7: { top: '35.4%', left: '24%' },
+    8: { top: '28%', left: '40%' },
+    9: { top: '22%', left: '64.2%' },
+    10: { top: '24.5%', left: '14.8%' },
+    11: { top: '15%', left: '49%' },
+    12: { top: '29.6%', left: '59%' },
+    13: { top: '51%', left: '33.7%' },
+    14: { top: '31.8%', left: '32.8%' },
+    15: { top: '29.7%', left: '67.3%' },
+    16: { top: '18%', left: '52%' },
+    17: { top: '34.2%', left: '77%' },
+    18: { top: '17%', left: '30%' },
+    19: { top: '29.5%', left: '61%' },
+    20: { top: '19%', left: '81%' },
+    21: { top: '34.8%', left: '23.5%' },
+    22: { top: '43.5%', left: '16%' },
+    23: { top: '31%', left: '64%' },
+    24: { top: '33%', left: '53.5%' },
+    25: { top: '21.5%', left: '64.5%' },
+    26: { top: '36.5%', left: '25%' },
+    27: { top: '31.3%', left: '60%' },
+    28: { top: '52%', left: '42.3%' },
+    29: { top: '37.5%', left: '65.8%' },
+    30: { top: '50.2%', left: '91%' },
+    31: { top: '44%', left: '16.5%' },
+
 };
 
 // Define the positions for movable-area2
 const newArea2Positions = {
-    1: { top: '10%', left: '20%' },
-    2: { top: '30%', left: '50%' },
-    23: { top: '0%', left: '0%' },
-    // Add positions for other days here...
-    31: { top: '90%', left: '70%' },
+    1: { top: '60%', left: '60%' },
+    2: { top: '57%', left: '51%' },
+    3: { top: '47%', left: '81%' },
+    4: { top: '67.5%', left: '67.3%' },
+    5: { top: '83%', left: '56.2%' },
+    6: { top: '40%', left: '81%' },
+    7: { top: '50.3%', left: '83%' },
+    8: { top: '49.5%', left: '18.5%' },
+    9: { top: '46%', left: '63%' },
+    10: { top: '51.1%', left: '17%' },
+    11: { top: '56.6%', left: '58.8%' },
+    12: { top: '71.7%', left: '7%' },
+    13: { top: '67.3%', left: '67.7%' },
+    14: { top: '88.5%', left: '63.7%' },
+    15: { top: '75.5%', left: '12.8%' },
+    16: { top: '65.6%', left: '65.1%' },
+    17: { top: '47.7%', left: '39.8%' },
+    18: { top: '57%', left: '58.5%' },
+    19: { top: '58.5%', left: '28.3%' },
+    20: { top: '78.5%', left: '12.8%' },
+    21: { top: '66%', left: '64.3%' },
+    22: { top: '66%', left: '71%' },
+    23: { top: '52.5%', left: '48.5%' },
+    24: { top: '66%', left: '65.2%' },
+    25: { top: '52.5%', left: '32%' },
+    26: { top: '38.8%', left: '91%' },
+    27: { top: '50%', left: '18%' },
+    28: { top: '67.8%', left: '67.8%' },
+    29: { top: '51%', left: '12.1%' },
+    30: { top: '60%', left: '28.5%' },
+    31: { top: '68%', left: '67.5%' },
+
 };
 
-// Function to update the positions of the clickable areas
-function updateClickableAreasPosition() {
+// Define the destinations for movable-area1
+const newArea1Links = {
+   1: "interakcja4.html",
+    2: "interakcja1.html",
+    3: "interakcja2.html",
+    4: "interakcja3.html",
+    5: "interakcja8.html",
+    6: "interakcja1.html",
+    7: "interakcja10.html",
+    8: "interakcja11.html",
+    9: "interakcja12.html",
+    10: "interakcja3.html",
+    11: "interakcja2.html",
+    12: "interakcja15.html",
+    13: "interakcja17.html",
+    14: "interakcja18.html",
+    15: "interakcja19.html",
+    16: "interakcja20.html",
+    17: "interakcja21.html",
+    18: "interakcja1.html",
+    19: "interakcja1.html",
+    20: "interakcja24.html",
+    21: "interakcja3.html",
+    22: "interakcja1.html",
+    23: "interakcja26.html",
+    24: "interakcja2.html",
+    25: "interakcja1.html",
+    26: "interakcja6.html",
+    27: "interakcja5.html",
+    28: "interakcja28.html",
+    29: "interakcja29.html",
+    30: "interakcja1.html",
+    31: "interakcja31.html",
+};
+
+// Define the destinations for movable-area2
+const newArea2Links = {
+    1: "interakcja1.html",
+    2: "interakcja5.html",
+    3: "interakcja6.html",
+    4: "interakcja7.html",
+    5: "interakcja2.html",
+    6: "interakcja9.html",
+    7: "interakcja3.html",
+    8: "interakcja2.html",
+    9: "interakcja1.html",
+    10: "interakcja13.html",
+    11: "interakcja14.html",
+    12: "interakcja16.html",
+    13: "interakcja1.html",
+    14: "interakcja2.html",
+    15: "interakcja1.html",
+    16: "interakcja3.html",
+    17: "interakcja2.html",
+    18: "interakcja22.html",
+    19: "interakcja23.html",
+    20: "interakcja2.html",
+    21: "interakcja24.html",
+    22: "interakcja25.html",
+    23: "interakcja1.html",
+    24: "interakcja23.html",
+    25: "interakcja27.html",
+    26: "interakcja3.html",
+    27: "interakcja2.html",
+    28: "interakcja1.html",
+    29: "interakcja3.html",
+    30: "interakcja30.html",
+    31: "interakcja2.html",
+};
+
+// Function to update the positions and links of the clickable areas
+function updateClickableAreas() {
     const newArea1 = document.querySelector('.movable-area1');
     const newArea2 = document.querySelector('.movable-area2');
+
+    // Get current day of the month
+    const currentDayOfMonthCET = getCETDayOfMonth();
 
     // Get positions for the current day
     const position1 = newArea1Positions[currentDayOfMonthCET] || { top: '50%', left: '50%' };
@@ -199,14 +326,16 @@ function updateClickableAreasPosition() {
     // Apply positions to the new clickable areas
     newArea1.style.top = position1.top;
     newArea1.style.left = position1.left;
-
     newArea2.style.top = position2.top;
     newArea2.style.left = position2.left;
+
+    // Get links for the current day
+    newArea1.href = newArea1Links[currentDayOfMonthCET] || "#";
+    newArea2.href = newArea2Links[currentDayOfMonthCET] || "#";
 }
 
-
-    // Update the positions when the page loads
-    updateClickableAreasPosition();
+// Update the positions and links when the page loads
+updateClickableAreas();
 </script>
 
 </body>
